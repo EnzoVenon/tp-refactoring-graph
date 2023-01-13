@@ -33,6 +33,8 @@ public class PathTree {
 	}
 
     public Path getPath(Vertex destination){
+        assert isReached(destination);
+    
         List<Edge> result = new ArrayList<>();
 
 		Edge current = this.getNode(destination).getReachingEdge();
@@ -43,5 +45,20 @@ public class PathTree {
 
 		Collections.reverse(result);
 		return new Path(result);
+    }
+
+    public boolean isReached(Vertex destination){
+        return this.getNode(destination).getReachingEdge() != null;
+    }
+
+    public PathNode getOrCreateNode(Vertex vertex){
+        PathNode pathNode;
+        if(this.nodes.containsKey(vertex)){
+            pathNode =  this.nodes.get(vertex);
+        } else {
+            pathNode = new PathNode();
+			this.nodes.put(vertex, pathNode);
+        }
+        return pathNode;
     }
 }

@@ -33,6 +33,11 @@ public class Edge {
 	 */
 	private Vertex target;
 
+	/**
+	 * Géométrie réelle du tronçon de route
+	 */
+	private LineString geometry;
+
 	Edge(Vertex source, Vertex target) {
 		this.source = source;
 		this.target = target;
@@ -82,16 +87,23 @@ public class Edge {
 	 * @return
 	 */
 	public double getCost() {
-		return source.getCoordinate().distance(target.getCoordinate());
+		return this.getGeometry().getLength();
 	}
 
 	@JsonSerialize(using = GeometrySerializer.class)
 	public LineString getGeometry() {
-		GeometryFactory gf = new GeometryFactory();
-		return gf.createLineString(new Coordinate[] {
-			source.getCoordinate(),
-			target.getCoordinate()
-		});
+		if(this.geometry == null){
+			GeometryFactory gf = new GeometryFactory();
+			this.geometry =  gf.createLineString(new Coordinate[] {
+				source.getCoordinate(),
+				target.getCoordinate()
+			});
+		}
+		return this.geometry;
+	}
+
+	public void setGeometry(LineString geometry){
+		this.geometry = geometry;
 	}
 
 	@Override

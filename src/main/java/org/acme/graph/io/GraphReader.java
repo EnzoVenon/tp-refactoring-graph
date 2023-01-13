@@ -89,11 +89,11 @@ public class GraphReader {
 
 		/* Création de l'arc pour le parcours en sens direct */
 		if (sens.equals(DOUBLE_SENS) || sens.equals(SENS_DIRECT)) {
-			graph.createEdge(source, target, id + "-direct");
+			graph.createEdge(source, target, id + "-direct").setGeometry(geometry);
 		}
 		if (sens.equals(DOUBLE_SENS) || sens.equals(SENS_INVERSE)) {
 			/* Création de l'arc pour le parcours en sens opposé */
-			graph.createEdge(target, source, id + "-reverse");
+			graph.createEdge(target, source, id + "-reverse").setGeometry(geometry);
 		}
 	}
 

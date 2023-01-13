@@ -1,6 +1,10 @@
 package org.acme.graph.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.locationtech.jts.geom.Coordinate;
 
 /**
@@ -35,8 +39,15 @@ public class Vertex {
 	 */
 	private boolean visited;
 
-	Vertex() {
+	@JsonIgnore
+	private List<Edge> inEdges;
 
+	@JsonIgnore
+	private List<Edge> outEdges;
+
+	Vertex() {
+		this.inEdges = new ArrayList<Edge>();
+		this.outEdges = new ArrayList<Edge>();
 	}
 
 	public String getId() {
@@ -86,4 +97,11 @@ public class Vertex {
 		return id;
 	}
 
+	public List<Edge> getInEdges(){
+		return this.inEdges;
+	}
+
+	public List<Edge> getOutEdges(){
+		return this.outEdges;
+	}
 }

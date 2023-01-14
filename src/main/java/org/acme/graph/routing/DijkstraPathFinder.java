@@ -39,7 +39,7 @@ public class DijkstraPathFinder {
 	public Path findPath(Vertex origin, Vertex destination) {
 		log.info("findPath({},{})...", origin, destination);
 		log.trace("initGraph({})", origin);
-		this.pathTree = new PathTree(graph, origin);
+		this.pathTree = new PathTree(origin);
 		Vertex current;
 		while ((current = findNextVertex()) != null) {
 			visit(current);
@@ -70,10 +70,10 @@ public class DijkstraPathFinder {
 			 * Convervation de arc permettant d'atteindre le sommet avec un meilleur coût
 			 * sachant que les sommets non atteint ont pour coût "POSITIVE_INFINITY"
 			 */
-			double newCost = this.pathTree.getOrCreateNode(vertex).getCost() + outEdge.getCost();
+			double newCost = this.pathTree.getNode(vertex).getCost() + outEdge.getCost();
 			if (newCost < this.pathTree.getOrCreateNode(reachedVertex).getCost()) {
-				this.pathTree.getOrCreateNode(reachedVertex).setCost(newCost);
-				this.pathTree.getOrCreateNode(reachedVertex).setReachingEdge(outEdge);
+				this.pathTree.getNode(reachedVertex).setCost(newCost);
+				this.pathTree.getNode(reachedVertex).setReachingEdge(outEdge);
 			}
 		}
 		/*
@@ -92,7 +92,7 @@ public class DijkstraPathFinder {
 	private Vertex findNextVertex() {
 		double minCost = Double.POSITIVE_INFINITY;
 		Vertex result = null;
-		for (Vertex vertex : graph.getVertices()) {
+		for (Vertex vertex : this.pathTree.getReachedVertices()) {
 			PathNode node = this.pathTree.getNode(vertex);
 			// sommet déjà visité?
 			if (node.isVisited()) {

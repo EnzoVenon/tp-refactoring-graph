@@ -19,6 +19,8 @@ public class PathNode {
 	private boolean visited;
 
     public PathNode(){
+		this.cost = Double.POSITIVE_INFINITY;
+		this.visited = false;
     }
     
     @JsonIgnore
